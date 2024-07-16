@@ -8,7 +8,7 @@ import cv2
 from scipy.fft import fft2, ifft2, fftshift, ifftshift
 from split_my_data import split_data_real
 
-# 设置图像和斑点的大小
+
 image_size = 256
 spot_radius = 2
 itera = 5
@@ -72,26 +72,23 @@ def data_generate_seed():
 def gs(image, first_x, first_y, num):
     global G0_GSNew, phase_image_normalized_10
 
-    # Resize and normalize the image
-    Amplitude = cv2.resize(image, (256, 256))
-    Amplitude = Amplitude / Amplitude.max()  # Normalize to [0, 1] range
 
-    # Generate a random phase
+    Amplitude = cv2.resize(image, (256, 256))
+    Amplitude = Amplitude / Amplitude.max()
+
 
     np.random.seed(seed_value)
     phase = np.random.rand(*Amplitude.shape) * 2 * np.pi
     np.random.seed(None)
 
-    # Create the initial complex amplitude distribution for the GS algorithm
     g0_GS = Amplitude * np.exp(1j * phase)
 
-    # Perform the iterative process
     for n in range(itera):
-        G0_GS = fftshift(fft2(g0_GS))  # Fourier transform to frequency domain
-        G0_GSNew = G0_GS / np.abs(G0_GS)  # Take the phase value, frequency domain with full 1 amplitude constraint
-        g0_GSNew = ifft2(ifftshift(G0_GSNew))  # Inverse Fourier transform back to spatial domain
+        G0_GS = fftshift(fft2(g0_GS))  
+        G0_GSNew = G0_GS / np.abs(G0_GS) 
+        g0_GSNew = ifft2(ifftshift(G0_GSNew)) 
         g0_GS = Amplitude * (
-                g0_GSNew / np.abs(g0_GSNew))  # Directly use the initial amplitude constraint without modification
+                g0_GSNew / np.abs(g0_GSNew)) 
         if n == 1:
             phase_image_10 = np.angle(G0_GSNew)
             phase_image_normalized_10 = (phase_image_10 + np.pi) / (2 * np.pi)
@@ -101,19 +98,19 @@ def gs(image, first_x, first_y, num):
             # outputFileName = os.path.join(path1, outputFileName)
             # phase_image_normalized_save = (phase_image_10 + np.pi) / (
             #             2 * np.pi)  # Normalize the phase to [0, 1] range
-            # cv2.imwrite(outputFileName, phase_image_normalized_save * 255)  # Save the phase image as a JPG file
+            # cv2.imwrite(outputFileName, phase_image_normalized_save * 255) 
 
             phase_image_normalized_10 = torch.from_numpy(phase_image_normalized_10)
             phase_image_normalized_10 = phase_image_normalized_10 * 2 - 1
 
-    phase_image = np.angle(G0_GSNew)  # Extract the phase information
-    phase_image_normalized = (phase_image + np.pi) / (2 * np.pi)  # Normalize the phase to [0, 1] range
+    phase_image = np.angle(G0_GSNew)
+    phase_image_normalized = (phase_image + np.pi) / (2 * np.pi)
 
     # outputFileName = f"outputFileName = spot_at_{first_x}_{first_y}_{num}.png"
     # path1 = './test_out'
     # outputFileName = os.path.join(path1, outputFileName)
-    # phase_image_normalized_save = (phase_image + np.pi) / (2 * np.pi)  # Normalize the phase to [0, 1] range
-    # cv2.imwrite(outputFileName, phase_image_normalized_save * 255)  # Save the phase image as a JPG file
+    # phase_image_normalized_save = (phase_image + np.pi) / (2 * np.pi)
+    # cv2.imwrite(outputFileName, phase_image_normalized_save * 255)
 
     phase_image_normalized = torch.from_numpy(phase_image_normalized)
     phase_image_normalized = phase_image_normalized * 2 - 1
