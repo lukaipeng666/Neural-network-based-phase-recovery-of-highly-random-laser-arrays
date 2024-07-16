@@ -50,10 +50,8 @@ if G0_GSNewW is None:
 G0_GSNewW = torch.from_numpy(G0_GSNewW).to(torch.float64) / 255.0  # 归一化到 0-1 范围
 G0_GSNewW = (G0_GSNewW * 2 - 1) * torch.pi  # 将强度转化为 -pi 到 pi 范围
 
-# 由于 PyTorch 不直接支持复数类型的构造函数（例如，没有类似于 NumPy 的 1j），我们使用 torch.complex 创建复数张量
 G0_GSNewW_complex = torch.complex(torch.zeros_like(G0_GSNewW), G0_GSNewW)  # 转化为虚数表示
 
-# 进行傅里叶逆变换（先移位再变换，类似于 NumPy 中的 ifftshift + ifft2）
 G0_GSNewW_shifted = fft.ifftshift(G0_GSNewW_complex)
 g0_GSNewB = fft.ifft2(G0_GSNewW_shifted)
 
