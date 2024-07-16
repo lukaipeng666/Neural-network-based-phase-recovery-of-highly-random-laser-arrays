@@ -111,7 +111,7 @@ def train(opt):
                 'G_model': pix_G.state_dict(),
                 'D_model': pix_D.state_dict(),
                 'epoch': epoch
-            }, './weights/Bi_Ushape_Attendion.pth')
+            }, './weights/weights.pth')
 
 
 def cfg():
@@ -121,7 +121,7 @@ def cfg():
     parse.add_argument('--imgsize', type=int, default=256)
     parse.add_argument('--dataPath', type=str, default='./input', help='data root path')
     parse.add_argument('--output_path', type=str, default='./output', help='data root path')
-    parse.add_argument('--weight', type=str, default='./weights/Bi_Ushape_Attendion.pth', help='load pre train weight')
+    parse.add_argument('--weight', type=str, default='./weights/weights.pth', help='load pre train weight')
     parse.add_argument('--savePath', type=str, default='./weights', help='weight save path')
     parse.add_argument('--numworker', type=int, default=4)
     parse.add_argument('--every', type=int, default=8, help='plot train result every * iters')
