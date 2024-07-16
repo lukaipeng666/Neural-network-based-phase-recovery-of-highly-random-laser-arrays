@@ -8,11 +8,10 @@
 #     plt.title('NEU_out_reverse of Distances')
 #     plt.xlabel('Distance')
 #     plt.ylabel('Frequency')
-#     plt.grid(True)  # 添加网格线以便于观察
+#     plt.grid(True) 
 #     plt.show()
 
 #
-# # 加载数据
 # with open('ssim_value_NEU.pkl', 'rb') as file:
 #     data = pickle.load(file)
 #
@@ -26,7 +25,7 @@
 # # 添加标题和轴标签
 # plt.title('NEU_recovery_ssim')
 # plt.xlabel('x')
-# plt.ylabel('y')  # 对于水平箱线图，ylabel 实际上并不表示具体的意义，可以根据需要调整或省略
+# plt.ylabel('y') 
 #
 # # 显示图形
 # plt.show()
