@@ -45,7 +45,7 @@ def train(opt):
                             num_workers=opt.numworker,
                             drop_last=True)
 
-    # 实例化网络
+
     model = U_net()
     pix_G = model.to(device)
     pix_D = unet_D().to(device)
@@ -56,7 +56,7 @@ def train(opt):
     #             param.requires_grad = False  # 冻结住下采样层
     # for name, param in model.named_parameters():
     #     print(f'{name}:requires_grad={param.requires_grad}')
-    # 定义优化器和损失函数
+
     optim_G = optim.Adam(filter(lambda p: p.requires_grad, pix_G.parameters()), lr=0.0002, betas=(0.1, 0.999))
     optim_D = optim.Adam(filter(lambda p: p.requires_grad, pix_D.parameters()), lr=0.0002, betas=(0.1, 0.999))
 
@@ -72,7 +72,6 @@ def train(opt):
         pix_D.load_state_dict(ckpt['D_model'], strict=False)
         epoch = 0
 
-    writer = SummaryWriter(log_dir='train_logs')
     # 开始训练
     loss_mean = 1
     while loss_mean > 0.30:
@@ -111,7 +110,7 @@ def train(opt):
                 'G_model': pix_G.state_dict(),
                 'D_model': pix_D.state_dict(),
                 'epoch': epoch
-            }, './weights/weights.pth')
+            }, './weights/weights.pth')  #此处为权重保存位置
 
 
 def cfg():
@@ -121,7 +120,7 @@ def cfg():
     parse.add_argument('--imgsize', type=int, default=256)
     parse.add_argument('--dataPath', type=str, default='./input', help='data root path')
     parse.add_argument('--output_path', type=str, default='./output', help='data root path')
-    parse.add_argument('--weight', type=str, default='./weights/weights.pth', help='load pre train weight')
+    parse.add_argument('--weight', type=str, default='./weights/weights.pth', help='load pre train weight')  #此处需要修改您的预训练权重位置
     parse.add_argument('--savePath', type=str, default='./weights', help='weight save path')
     parse.add_argument('--numworker', type=int, default=4)
     parse.add_argument('--every', type=int, default=8, help='plot train result every * iters')
