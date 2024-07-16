@@ -77,7 +77,6 @@ class Conv_net(nn.Module):
         return x
 
 
-# Resnet 的残差块
 class ResidualBlock(nn.Module):
     def __init__(self, in_channels, out_channels, stride=1, downsample=None):
         super(ResidualBlock, self).__init__()
@@ -102,7 +101,6 @@ class ResidualBlock(nn.Module):
         return out
 
 
-# ResNet定义
 class U_net(nn.Module):
     def __init__(self):
         super(U_net, self).__init__()
@@ -170,17 +168,11 @@ class U_net(nn.Module):
         return out, out_10
 
 
-# x = torch.randn((1, 1, 256, 256))
-# model = U_net()
-# output = model(x)
-# print(output[0].shape, output[1].shape)
-
 
 class unet_D(nn.Module):
     def __init__(self):
         super(unet_D, self).__init__()
 
-        # 定义基本的卷积\bn\relu
         def base_Conv_bn_lkrl(in_channels, out_channels, stride):
             return nn.Sequential(
                 nn.Conv2d(in_channels, out_channels, 4, stride, 1),
