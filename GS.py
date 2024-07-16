@@ -17,7 +17,7 @@ for fileIdx, fileName in enumerate(imageFiles):
 
     Amplitude = cv2.resize(gray, (256, 256))
     Amplitude = Amplitude / Amplitude.max()
-    # Generate a random phase
+
     np.random.seed(30)
     phase = np.random.rand(*Amplitude.shape) * 2 * np.pi
 
